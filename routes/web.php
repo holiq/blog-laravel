@@ -26,13 +26,25 @@ Route::get('/user', 'BlogController@user')->name('blog.user');
 
 Route::group(['prefix' => 'admin'], function() {
     Route::get('/', 'AdminController@index')->name('admin.index');
-    Route::get('/', 'AdminController@showLoginForm')->name('admin.login');
-    Route::post('/', 'AdminController@login')->name('admin.login');
-    Route::post('/', 'AdminController@logout')->name('admin.logout');
-    Route::get('/', 'AdminController@index')->name('admin.index');
+    Route::get('/login', 'AdminController@showLoginForm')->name('admin.login');
+    Route::post('/login', 'AdminController@login')->name('admin.login');
+    Route::post('/logout', 'AdminController@logout')->name('admin.logout');
     Route::resource('/category', 'CategoryController')->except([
 		'show',
 	]);
 	Route::resource('/post', 'PostController');
 	Route::resource('/comment', 'CommentController');
+	Route::resource('/role', 'RoleController')->except([
+	    'create', 'show', 'edit', 'update'
+	]);
+	Route::resource('/users', 'UserController')->except([
+	    'show'
+	]);
+	Route::group(['prefix' => 'users'], function() {
+		Route::get('/roles/{id}', 'UserController@roles')->name('users.roles');
+		Route::put('/roles/{id}', 'UserController@setRole')->name('users.set_role');
+		Route::post('/permission', 'UserController@addPermission')->name('users.add_permission');
+		Route::get('/role-permission', 'UserController@rolePermission')->name('users.roles_permission');
+		Route::put('/permission/{role}', 'UserController@setRolePermission')->name('users.setRolePermission');
+	});
 });

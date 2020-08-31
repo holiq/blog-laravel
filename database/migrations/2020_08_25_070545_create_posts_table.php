@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
             $table->foreignId('user_id');
             $table->string('thumbnail');
             $table->text('content');
-            $table->integer('content_read');
+            $table->integer('views');
             $table->timestamps();
         });
         
