@@ -34,7 +34,15 @@ class SummernoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = $request->validate([
+			'file' => 'image|mimes:jpeg,png,jpg|max:2048',
+		]);
+		
+		if($request->hasFile('file')){
+            $file = time().'.'.$request->file->extension();
+            $request->file->move(public_path('images/post'), $file);
+            echo url('images/post/'.$file);
+        }
     }
 
     /**
@@ -77,8 +85,12 @@ class SummernoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $src = $request->src;
+        $name = explode("/", $src);
+        $file = end($name);
+
+        File::delete(public_path('/images/post/'.$file));
     }
 }

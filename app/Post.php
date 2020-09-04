@@ -3,11 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentTaggable\Taggable;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Post extends Model
 {
-    use Sluggable;
+    use Sluggable, Taggable;
 	
 	/**
      * Return the sluggable configuration array for this model.
