@@ -12,8 +12,6 @@ use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class UserController extends Controller
 {
-	
-	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -126,60 +124,6 @@ class UserController extends Controller
 		$user = User::findOrFail($id);
 		$user->delete();
 		return redirect()->back()->with(['success' => 'User: ' . $user->name . ' Dihapus']);
-	}
-	
-	
-	public function rolePermission(Request $request)
-	{
-		$role = $request->get('role');
-		
-		//Default, set dua buah variable dengan nilai null
-		$permissions = null;
-		$hasPermission = null;
-		
-		//Mengambil data role
-		$roles = Role::all()->pluck('name');
-		
-		//apabila parameter role terpenuhi
-		if(!empty($role)) {
-			//select role berdasarkan namenya, ini sejenis dengan method find()
-			$getRole = Role::findByName($role);
-				
-			//Query untuk mengambil permission yang telah dimiliki oleh role terkait
-			$hasPermission = DB::table('role_has_permissions')
-			->select('permissions.name')
-			->join('permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
-			->where('role_id', $getRole->id)
-			->get()->pluck('name')->all();
-			
-			//Mengambil data permission
-			$permissions = Permission::all()->pluck('name');
-		}
-		return view('admin.users.role_permission', compact('roles', 'permissions', 'hasPermission'));
-	}
-	
-	
-	public function addPermission(Request $request)
-	{
-		$this->validate($request, [
-			'name' => 'required|string|unique:permissions'
-		]);
-		
-		$permission = Permission::firstOrCreate([
-			'name' => $request->name
-		]);
-		return redirect()->back();
-	}
-	
-	public function setRolePermission(Request $request, $role)
-	{
-		//select role berdasarkan namanya
-		$role = Role::findByName($role);
-		
-		//fungsi syncPermission akan menghapus semua permissio yg dimiliki role tersebut
-		//kemudian di-assign kembali sehingga tidak terjadi duplicate data
-		$role->syncPermissions($request->permission);
-		return redirect()->back()->with(['success' => 'Permission to Role Saved!']);
 	}
 	
 	public function roles(Request $request, $id)

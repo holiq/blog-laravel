@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'BlogController@index')->name('index');
+Route::get('/', 'BlogController@index')->name('blog.index');
 Route::get('/category/{slug}', 'BlogController@category')->name('blog.category');
 Route::get('/post/{post:slug}', 'PostController@show')->name('post.show');
 Route::post('/post/comment', 'CommentController@store')->name('post.comment.store');
@@ -24,18 +24,27 @@ Auth::routes();
 
 Route::get('/user', 'BlogController@user')->name('blog.user');
 
-Route::group(['prefix' => 'admin'], function() {
+Route::group(['prefix' => 'admin', 'middleware' => 'guest.admin'], function() {
+    Route::get('/login', 'AdminAuthController@showLoginForm')->name('admin.login');
+    Route::post('/login', 'AdminAuthController@login')->name('admin.login');
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => 'auth.admin'], function() {
     Route::get('/', 'AdminController@index')->name('admin.index');
-    Route::get('/login', 'AdminController@showLoginForm')->name('admin.login');
-    Route::post('/login', 'AdminController@login')->name('admin.login');
-    Route::post('/logout', 'AdminController@logout')->name('admin.logout');
+    Route::post('/logout', 'AdminAuthController@logout')->name('admin.logout');
     Route::resource('/category', 'CategoryController')->except([
 		'show',
 	]);
 	Route::resource('/post', 'PostController');
+	Route::resource('/summernote', 'SummernoteController')->except([
+	    'index', 'create', 'show', 'edit', 'update',
+	]);
 	Route::resource('/comment', 'CommentController');
 	Route::resource('/role', 'RoleController')->except([
-	    'create', 'show', 'edit', 'update'
+	    'create',
+	]);
+	Route::resource('/permission', 'PermissionController')->except([
+	    'create'
 	]);
 	Route::resource('/users', 'UserController')->except([
 	    'show'
@@ -43,8 +52,5 @@ Route::group(['prefix' => 'admin'], function() {
 	Route::group(['prefix' => 'users'], function() {
 		Route::get('/roles/{id}', 'UserController@roles')->name('users.roles');
 		Route::put('/roles/{id}', 'UserController@setRole')->name('users.set_role');
-		Route::post('/permission', 'UserController@addPermission')->name('users.add_permission');
-		Route::get('/role-permission', 'UserController@rolePermission')->name('users.roles_permission');
-		Route::put('/permission/{role}', 'UserController@setRolePermission')->name('users.setRolePermission');
 	});
 });

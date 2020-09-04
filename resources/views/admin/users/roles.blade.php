@@ -8,7 +8,7 @@
 		</div>
 		<h1 class="m-0 text-dark">Role Permission</h1>
 		<div class="section-header-breadcrumb">
-			<div class="breadcrumb-item"><a href="{{ route('admin') }}">Home</a></div>
+			<div class="breadcrumb-item"><a href="{{ route('admin.index') }}">Home</a></div>
 			<div class="breadcrumb-item"><a href="{{ route('users.index') }}">User</a></div>
 			<div class="breadcrumb-item">Set Role</div>
 		</div>

@@ -6,9 +6,9 @@
 		<div class="section-header-back">
 			<a href="#" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
 		</div>
-		<h1 class="m-0 text-dark">Manajemen Role</h1>
+		<h1 class="m-0 text-dark">Management Role</h1>
 		<div class="section-header-breadcrumb">
-			<div class="breadcrumb-item active"><a href="{{ route('admin') }}">Home</a></div>
+			<div class="breadcrumb-item active"><a href="{{ route('admin.index') }}">Home</a></div>
 			<div class="breadcrumb-item">Role</div>
 		</div>
 	</div>
@@ -34,16 +34,24 @@
 							@csrf
 							<div class="form-group">
 								<label for="name">Role</label>
-								<input type="text" 
-								name="name"
-								class="form-control @error('name') is-invalid @enderror" id="name" required>
+								<input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" required>
 								@error('name')
 								<span class="invalid-feedback" role="alert">
 									<strong>{{ $message }}</strong>
 								</span>
 								@enderror
 							</div>
-							<button class="btn btn-primary">Simpan</button>
+							<div class="form-group">
+								<label for="permission">Permission</label>
+								<select class="form-controll selectric" name="permission[]" multiple>
+									@foreach($permissions as $row)
+									<option value="{{ $row->name }}">{{ $row->name }}</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="form-group">
+							    <button class="btn btn-primary">Add New</button>
+						    </div>
 						</form>
 					</div>
 				</div>
@@ -65,25 +73,34 @@
 									<tr>
 										<th>#</th>
 										<th>Role</th>
-										<th>Guard</th>
+										<th>Permission</th>
 										<th>Created At</th>
-										<th>Aksi</th>
+										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
 								@php $no = 1; @endphp
-								@forelse ($role as $row)
+								@forelse($roles as $row)
 									<tr>
 										<td>{{ $no++ }}</td>
 										<td>{{ $row->name }}</td>
-										<td>{{ $row->guard_name }}</td>
+										<td>
+											@foreach($row->permissions as $permission)
+											    <div class="badge badge-primary badge-sm">{{ $permission->name }}</div>
+											@endforeach
+										</td>
 										<td>{{ $row->created_at }}</td>
 										<td>
-											<form action="{{ route('role.destroy', $row->id) }}" method="POST">
-												@csrf
-												<input type="hidden" name="_method" value="DELETE">
-												<button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-											</form>
+											<div class="d-flex">
+												<a href="{{ route('role.show', $row->id) }}" class="btn btn-info btn-sm mx-2"><i class="fa fa-eye"></i></a>
+												<a href="{{ route('role.edit', $row->id) }}" class="btn btn-warning btn-sm mx-2"><i class="fa fa-edit"></i></a>
+												<form action="{{ route('role.destroy', $row->id) }}" method="POST">
+													@csrf
+													@method('delete')
+													<button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+												</form>
+											</div>
+									    </td>
 										</td>
 									</tr>
 									@empty
@@ -94,7 +111,7 @@
 								</tbody>
 							</table>
 						</div>
-						{{ $role->links('vendor.pagination.bootstrap-4') }}
+						{{ $roles->links('vendor.pagination.bootstrap-4') }}
 					</div>
 				</div>
 			</div>
@@ -102,3 +119,9 @@
 	</div>
 </section>
 @endsection
+@push('stylesheet')
+<link rel="stylesheet" href="{{ asset('package/selectric/public/selectric.css') }}">
+@endpush
+@push('javascript')
+<script src="{{ asset('package/selectric/public/jquery.selectric.min.js') }}"></script>
+@endpush

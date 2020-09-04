@@ -21,8 +21,8 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a href="{{ route('users.roles_permission') }}" class="nav-link">
-						<span>Role Permission</span>
+					<a href="{{ route('permission.index') }}" class="nav-link">
+						<span>Permission</span>
 					</a>
 				</li>
 				<li class="nav-item">

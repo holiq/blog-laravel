@@ -3,16 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
-	public function __construct()
-	{
-		$this->middleware('auth.admin');
-	}
-	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -20,8 +16,9 @@ class RoleController extends Controller
 	 */
 	public function index()
 	{
-		$role = Role::orderBy('created_at', 'DESC')->paginate(10);
-		return view('admin.role', compact('role'));
+		$roles = Role::orderBy('created_at', 'DESC')->paginate(10);
+		$permissions = Permission::all();
+		return view('admin.role.index', compact('roles', 'permissions'));
 	}
 
 	/**
@@ -49,6 +46,7 @@ class RoleController extends Controller
 		$role = Role::firstOrCreate([
 			'name' => $request->name,
 		]);
+		$role->syncPermissions($request->permission);
 		
 		return redirect()->back()->with('success', 'Role: '.$role->name.' Added');
 	}
@@ -84,7 +82,10 @@ class RoleController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		//
+		$role = Role::findById($id);
+		$role->syncPermissions($request->permission);
+		
+		return redirect()->back()->with(['success' => 'Permission to Role Updated!']);
 	}
 
 	/**

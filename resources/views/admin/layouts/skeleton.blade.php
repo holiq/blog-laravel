@@ -11,6 +11,7 @@
 	@stack('stylesheet')
 	<link rel="stylesheet" href="{{ asset('stisla/css/style.css') }}">
 	<link rel="stylesheet" href="{{ asset('stisla/css/components.css') }}">
+	<link rel="stylesheet" href="{{ asset('stisla/css/custom.css') }}">
 </head>
 
 <body>
@@ -26,7 +27,8 @@
 	<script src="{{ asset('stisla/js/stisla.js') }}"></script>
 	<script src="{{ asset('stisla/js/scripts.js') }}"></script>
 	<script src="{{ asset('stisla/js/custom.js') }}"></script>
-	
+	<script src="{{ asset('package/eruda/eruda.min.js') }}"></script>
+	<script>eruda.init();</script>
 	@stack('javascript')
 </body>
 </html>
