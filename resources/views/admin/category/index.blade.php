@@ -8,7 +8,7 @@
 		</div>
 		<h1 class="m-0 text-dark">Category</h1>
 		<div class="section-header-breadcrumb">
-			<div class="breadcrumb-item active"><a href="{{ route('admin') }}">Home</a></div>
+			<div class="breadcrumb-item active"><a href="{{ route('admin.index') }}">Home</a></div>
 			<div class="breadcrumb-item">Category</div>
 		</div>
 	</div>

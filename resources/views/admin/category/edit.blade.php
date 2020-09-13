@@ -8,8 +8,8 @@
 		</div>
 		<h1 class="m-0 text-dark">Edit Categories</h1>
 		<div class="section-header-breadcrumb">
-			<div class="breadcrumb-item"><a href="{{ route('admin') }}">Home</a></div>
-			<div class="breadcrumb-item"><a href="{{ route('category.index') }}">Category</a></div>
+			<div class="breadcrumb-item"><a href="{{ route('admin.index') }}">Home</a></div>
+			<div class="breadcrumb-item"><a href="{{ route('categories.index') }}">Category</a></div>
 			<div class="breadcrumb-item">Edit</div>
 		</div>
 	</div>

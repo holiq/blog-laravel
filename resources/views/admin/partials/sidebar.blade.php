@@ -16,12 +16,12 @@
 			<a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i> <span>Management Role</span></a>
 			<ul class="dropdown-menu">
 				<li class="nav-item">
-					<a href="{{ route('role.index') }}" class="nav-link">
+					<a href="{{ route('roles.index') }}" class="nav-link">
 						<span>Role</span>
 					</a>
 				</li>
 				<li class="nav-item">
-					<a href="{{ route('permission.index') }}" class="nav-link">
+					<a href="{{ route('permissions.index') }}" class="nav-link">
 						<span>Permission</span>
 					</a>
 				</li>
@@ -44,19 +44,19 @@
 		@endrole
 		
 		<li class="nav-item">
-			<a href="{{ route('category.index') }}" class="nav-link">
+			<a href="{{ route('categories.index') }}" class="nav-link">
 				<i class="fas fa-users nav-icon"></i>
 				<span>Categories</span>
 			</a>
 		</li>
 		<li class="nav-item">
-			<a href="{{ route('post.index') }}" class="nav-link">
+			<a href="{{ route('posts.index') }}" class="nav-link">
 				<i class="fas fa-users nav-icon"></i>
-				<span>posts</span>
+				<span>Posts</span>
 			</a>
 		</li>
 		<li class="nav-item">
-			<a href="{{ route('comment.index') }}" class="nav-link">
+			<a href="{{ route('comments.index') }}" class="nav-link">
 				<i class="fas fa-users nav-icon"></i>
 				<span>Comments</span>
 			</a>
