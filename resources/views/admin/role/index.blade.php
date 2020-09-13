@@ -17,6 +17,11 @@
 		<p class="section-lead">
 			On this page you can create a new role and fill in all fields.
 		</p>
+		@if(session('success'))
+			<div class="alert alert-success">
+				{!! session('success') !!}
+			</div>
+		@endif
 		<div class="row">
 			<div class="col-md-4">
 				<div class="card">
@@ -24,11 +29,6 @@
 						<h4>Add New</h4>
 					</div>
 					<div class="card-body">
-						@if(session('error'))
-							<div class="alert alert-danger">
-								{!! session('error') !!}
-							</div>
-						@endif
 						
 						<form role="form" action="{{ route('role.store') }}" method="POST" class="needs-validation" novalidate="">
 							@csrf
@@ -43,11 +43,17 @@
 							</div>
 							<div class="form-group">
 								<label for="permission">Permission</label>
-								<select class="form-controll selectric" name="permission[]" multiple>
+								<select name="permission[]" id="permission" class="form-control selectric @error('permission') is-invalid @enderror" multiple>
+									<option>Choose One...</option>
 									@foreach($permissions as $row)
 									<option value="{{ $row->name }}">{{ $row->name }}</option>
 									@endforeach
 								</select>
+								@if($errors->has('permission'))
+								<span class="invalid-feedback" role="alert">
+									<strong>{{ $errors->first('permission') }}</strong>
+								</span>
+								@enderror
 							</div>
 							<div class="form-group">
 							    <button class="btn btn-primary">Add New</button>
@@ -62,11 +68,6 @@
 						<h4>List Role</h4>
 					</div>
 					<div class="card-body">
-						@if(session('success'))
-						<div class="alert alert-success">
-							{!! session('success') !!}
-						</div>
-						@endif
 						<div class="table-responsive">
 							<table class="table table-hover table-bordered">
 								<thead>

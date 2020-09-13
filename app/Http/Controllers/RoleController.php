@@ -40,7 +40,8 @@ class RoleController extends Controller
 	public function store(Request $request)
 	{
 		$validation = $request->validate([
-			'name' => 'required|string|max:50'
+			'name' => 'required|string|min:5|max:50',
+			'permission' => 'required',
 		]);
 		
 		$role = Role::firstOrCreate([
@@ -70,7 +71,11 @@ class RoleController extends Controller
 	 */
 	public function edit($id)
 	{
-		//
+		$role = Role::findOrFail($id);
+		$permissions = Permission::all()->pluck('name');
+		$hasPermission = $role->permissions->pluck('name')->toArray();
+		
+		return view('admin.role.edit', compact('role', 'permissions', 'hasPermission'));
 	}
 
 	/**
@@ -85,7 +90,7 @@ class RoleController extends Controller
 		$role = Role::findById($id);
 		$role->syncPermissions($request->permission);
 		
-		return redirect()->back()->with(['success' => 'Permission to Role Updated!']);
+		return redirect()->route('role.index')->with(['success' => 'Role Updated']);
 	}
 
 	/**
@@ -98,6 +103,7 @@ class RoleController extends Controller
 	{
 		$role = Role::findOrFail($id);
 		$role->delete();
+		
 		return redirect()->back()->with(['success' => 'Role: ' . $role->name . ' Deleted']);
 	}
 }

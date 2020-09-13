@@ -15,11 +15,14 @@ class CreateCommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
             $table->foreignId('parent_id')->nullable();
+            $table->foreignId('user_id')->nullable();
+            $table->string('guest_name')->nullable();
+            $table->string('guest_email')->nullable();
             $table->text('content');
             $table->foreignId('commentable_id');
             $table->string('commentable_type');
+            // $table->boolean('approved');
             $table->timestamps();
         });
         

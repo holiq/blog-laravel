@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'BlogController@index')->name('blog.index');
-Route::get('/category/{slug}', 'BlogController@category')->name('blog.category');
-Route::get('/post/{post:slug}', 'PostController@show')->name('post.show');
-Route::post('/post/comment', 'CommentController@store')->name('post.comment.store');
+Route::get('/category/{category:slug}', 'BlogController@category')->name('blog.category');
+Route::get('/tag/{tag:normalized}', 'BlogController@tag')->name('blog.tag');
+Route::get('/post/{post:slug}', 'BlogController@post')->name('post');
+Route::resource('/comment', 'CommentController')->except([
+    'index', 'create', 'show', 'edit', 
+]);
+Route::post('/comment/reply', 'CommentController@reply')->name('comment.reply');
 Route::post('/summernote_upload', 'SummernoteController@store')->name('summernote.upload');
 Route::post('/summernote/delete', 'SummernoteController@destroy')->name('summernote.delete');
 
@@ -32,18 +36,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'guest.admin'], function() {
 Route::group(['prefix' => 'admin', 'middleware' => 'auth.admin'], function() {
     Route::get('/', 'AdminController@index')->name('admin.index');
     Route::post('/logout', 'AdminAuthController@logout')->name('admin.logout');
-    Route::resource('/category', 'CategoryController')->except([
+    Route::resource('/categories', 'CategoryController')->except([
 		'show',
 	]);
-	Route::resource('/post', 'PostController');
+	Route::resource('/posts', 'PostController');
 	Route::resource('/summernote', 'SummernoteController')->except([
 	    'index', 'create', 'show', 'edit', 'update',
 	]);
-	Route::resource('/comment', 'CommentController');
-	Route::resource('/role', 'RoleController')->except([
+    Route::resource('/comments', 'CommentController');
+	Route::resource('/roles', 'RoleController')->except([
 	    'create',
 	]);
-	Route::resource('/permission', 'PermissionController')->except([
+	Route::resource('/permissions', 'PermissionController')->except([
 	    'create'
 	]);
 	Route::resource('/users', 'UserController')->except([
