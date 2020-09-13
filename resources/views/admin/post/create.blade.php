@@ -9,7 +9,7 @@
         <h1 class="m-0 text-dark">Add New Post</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item"><a href="{{ route('admin.index') }}">Home</a></div>
-            <div class="breadcrumb-item"><a href="{{ route('post.index') }}">Post</a></div>
+            <div class="breadcrumb-item"><a href="{{ route('posts.index') }}">Post</a></div>
             <div class="breadcrumb-item">Add New</div>
         </div>
     </div>
@@ -28,20 +28,20 @@
                         {!! session('error') !!}
                     </div>
                 @endif
-                <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('post')
-                    <div class="form-group">
-                        <label for="">{{ __('Title') }}</label>
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" required="required" name="title" value="{{ old('title') }}">
-                        @error('title')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="">{{ __('Title') }}</label>
+                                <input type="text" class="form-control @error('title') is-invalid @enderror" required="required" name="title" value="{{ old('title') }}">
+                                @error('title')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                             <div class="form-group">
                                 <label for="">{{ __('Category') }}</label>
                                 <select name="category_id" class="form-control selectric @error('category_id') is-invalid @enderror" value="{{ old('category_id') }}" required="required">
@@ -55,19 +55,6 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="">{{ __('Tags') }}</label>
-                                <input type="text" class="form-control @error('tags') is-invalid @enderror" required="required" name="tags" value="{{ old('tags') }}">
-                                @error('tags')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-8">
                             <div class="form-group">
                                 <label for="">{{ __('Content') }}</label>
                                 <textarea id="summernote" class="form-control @error('content') is-invalid @enderror" value="{{ old('content') }}" required="required" name="content"></textarea>
@@ -80,6 +67,31 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="">{{ __('Tags') }}</label>
+                                <select class="form-controll selectric" name="tag[]" multiple>
+                                    @foreach($tag as $row)
+                                    <option value="{{ $row->name }}">{{ $row->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('tags')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="">{{ __('Status') }}</label>
+                                <select class="form-controll selectric" name="status">
+                                    <option value="publish">{{ __('Publish') }}</option>
+                                    <option value="pending">{{ __('Pending') }}</option>
+                                </select>
+                                @error('status')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="">{{ __('Thumbnail') }}</label>
                                 <div id="image-preview" class="image-preview">
                                     <label for="image-upload" id="image-label">Choose File</label>
@@ -91,6 +103,14 @@
                                     </span>
                                 @enderror
                             </div>
+                            <div class="form-group">
+						        <div class="custom-control custom-checkbox">
+							        <input class="custom-control-input" type="checkbox" name="featured" id="featured" {{ old('featured') ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="featured">
+								        {{ __('Featured') }}
+							        </label>
+						        </div>
+					        </div>
                         </div>
                     </div>
                     <div class="form-group">

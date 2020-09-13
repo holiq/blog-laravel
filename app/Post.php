@@ -2,13 +2,13 @@
 
 namespace App;
 
+use Spatie\Tags\HasTags;
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentTaggable\Taggable;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Post extends Model
 {
-    use Sluggable, Taggable;
+    use Sluggable, HasTags;
 	
 	/**
      * Return the sluggable configuration array for this model.
@@ -25,7 +25,7 @@ class Post extends Model
     }
     
     protected $fillable = [
-        'title', 'slug', 'category_id', 'user_id', 'thumbnail', 'content', 'views',
+        'title', 'slug', 'featured', 'category_id', 'user_id', 'thumbnail', 'content', 'status', 'views',
     ];
     
     public function category()
@@ -44,7 +44,7 @@ class Post extends Model
     //buat comment & reply di diskusi
     public function comment()
     {
-        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
+        return $this->hasMany(Comment::class, 'commentable_id')->whereNull('parent_id');
     }
     
 }
