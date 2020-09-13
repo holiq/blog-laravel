@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
 			'name' => $name,
 			'slug' => Str::slug($name, '-'),
 			'email' => Str::random(10).'@gmail.com',
+			'status' => true,
             'password' => Hash::make(Str::random(10)),
 		])->assignRole('user');
 		}
@@ -28,6 +29,7 @@ class UserSeeder extends Seeder
 			'name' => 'Holiq',
 			'slug' => 'holiq',
 			'email' => 'holiq@gmail.com',
+			'status' => true,
             'password' => Hash::make('11111111'),
 		])->assignRole('writer');
 		
@@ -35,6 +37,7 @@ class UserSeeder extends Seeder
 			'name' => 'Holiq Ibrahim',
 			'slug' => 'holiq-ibrahim',
 			'email' => 'holiq.ibrahim376@gmail.com',
+			'status' => true,
             'password' => Hash::make('11111111'),
 		])->assignRole('admin');
 	}
