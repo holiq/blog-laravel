@@ -22,7 +22,7 @@ class Comment extends Model
     
     function getTitle()
     {
-    	return $this->hasMany(Discussion::class, 'id', 'commentable_id');
+    	return $this->hasMany(Post::class, 'id', 'commentable_id');
 	}
 	
     public function replies()

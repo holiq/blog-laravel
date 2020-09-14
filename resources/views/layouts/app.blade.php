@@ -13,7 +13,9 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     
     <!-- Styles -->
-    <link href="{{ asset('css/tailwind.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('package/font-awesome/css/all.min.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-100 h-screen antialiased leading-none">
     <div id="app">
@@ -46,8 +48,9 @@
                 </div>
             </div>
         </nav>
-
         @yield('content')
     </div>
+    <script src="{{ asset('package/eruda/eruda.min.js') }}"></script>
+	<script>eruda.init();</script>
 </body>
 </html>

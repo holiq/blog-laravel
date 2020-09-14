@@ -29,7 +29,7 @@
                         </div>
                     </div>
                 </div>
-                @include('comment', ['post' => $post])
+                @include('comment', ['comments' => $post->comment])
             </div>
             <div class="w-full md:w-1/3 mb-4 px-2">
                 <div class="bg-white rounded overflow-hidden shadow hover:shadow-lg">
@@ -77,3 +77,24 @@
     </div>
 </main>
 @endsection
+@push('javascript')
+<script>
+    function editId(id) {
+        document.getElementById(id).classList.toggle("hidden");
+        document.getElementById(id).classList.toggle("block");
+    }
+    
+    function addReply(id) {
+        var i = document.getElementById( 'reply_body' );
+        var d = document.createElement('div');
+        d.id = "reply";
+        d.innerHTML = i.innerHTML ;
+        var p = document.getElementById(id);
+        p.appendChild(d);
+        document.getElementById('btn-reply').addClass('cursor-not-allowed');
+
+    }
+    function removeReply(button) {
+        button.parentNode.remove();
+    }
+</script>
