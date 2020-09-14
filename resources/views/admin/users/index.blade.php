@@ -54,7 +54,7 @@
 										<td>{{ $row->email }}</td>
 										<td>{{ $row->created_at->format('F d, Y H:i') }}</td>
 										<td>
-											@if($row->roles()->pluck('name')->implode(' ') == "member")
+											@if($row->roles()->pluck('name')->implode(' ') == "user")
 											<label for="" class="badge badge-info">{{  $row->roles()->pluck('name')->implode(' ') }}</label>
 											@else
 											<label for="" class="badge badge-primary">{{  $row->roles()->pluck('name')->implode(' ') }}</label>

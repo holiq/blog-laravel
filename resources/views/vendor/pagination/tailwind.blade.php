@@ -33,6 +33,7 @@
                     <span class="font-medium">{{ $paginator->total() }}</span>
                     {!! __('results') !!}
                 </p>
+                
             </div>
 
             <div>
