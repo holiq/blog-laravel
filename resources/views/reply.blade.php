@@ -40,10 +40,14 @@
         <div class="hidden" id="reply-{{ $reply->getKey() }}">
             <form action="{{ route('comment.store') }}" method="post">
                 @csrf
+                @honeypot
                 @method('post')
+                <input type="hidden" name="commentable_type" value="\{{ get_class($post) }}" />
+                <input type="hidden" name="commentable_id" value="{{ $post->getKey() }}" />
+                <input type="hidden" name="parent_id" value="{{ $reply->getKey() }}" />
                 <textarea class="bg-gray-100 rounded text-gray-600 text-sm leading-normal resize-none w-full h-24 py-2 px-3 my-3 font-medium placeholder-gray-400 focus:outline-none" name="content" placeholder="Type Your Comment" required></textarea>
                 <button type="button" class="bg-transparent rounded border border-gray-700 text-md text-gray-700 py-1 px-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline hover:bg-gray-700 hover:text-white font-medium" onclick="editId('reply-{{ $reply->getKey() }}')">Cancel</button>
-                <input type="submit" class="bg-green-500 rounded border border-green-500 text-md text-white py-1 px-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline font-medium" value="Update">
+                <input type="submit" class="bg-green-500 rounded border border-green-500 text-md text-white py-1 px-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline font-medium" value="Reply">
             </form>
         </div>
         @endcan

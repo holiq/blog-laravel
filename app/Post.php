@@ -36,12 +36,12 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
-    //buat count comment di index
+    //count the total comments per post
     public function countComment()
     {
         return $this->hasMany(Comment::class, 'commentable_id');
     }
-    //buat comment & reply di diskusi
+    //get comments to display in the post
     public function comment()
     {
         return $this->hasMany(Comment::class, 'commentable_id')->whereNull('parent_id');

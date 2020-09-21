@@ -5,7 +5,11 @@ module.exports = {
     './resources/sass/**/*.scss',
   ],
   theme: {
-    extend: {}
+    extend: {
+      screens: {
+        'dark': {'raw': '(prefers-color-scheme: dark)'},
+      }
+    }
   },
   variants: {
     tableLayout: ['responsive', 'hover', 'focus'],

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'BlogController@index')->name('blog.index');
 Route::get('/category/{category:slug}', 'BlogController@category')->name('blog.category');
-Route::get('/tag/{tag:normalized}', 'BlogController@tag')->name('blog.tag');
+Route::get('/tag/{slug}', 'BlogController@tag')->name('blog.tag');
 Route::get('/post/{post:slug}', 'BlogController@post')->name('post');
 Route::resource('/comment', 'CommentController')->except([
     'index', 'create', 'show', 'edit', 
