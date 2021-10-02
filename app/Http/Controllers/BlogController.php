@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use File;
 use App\Post;
 use App\Category;
+use App\User;
 use Spatie\Tags\Tag;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -80,5 +81,11 @@ SEOTools::addImages(url('images/post'.$post->thumbnail));
         $popular = Post::orderByDesc('views')->limit(5)->get();
         
         return view('index', compact('post', 'category', 'tags', 'popular'));
+    }
+
+    public function user()
+    {
+        $users = User::paginate();
+        return view('admin/users/index', compact('users'));
     }
 }
